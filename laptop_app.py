@@ -8,7 +8,7 @@ from streamlit_lottie import st_lottie
 import requests
 
 
-st.set_page_config(page_title="Laptop App",
+st.set_page_config(page_title="Laptop Price Prediction App",
                    page_icon=":computer:", layout="wide")
 # Custom CSS
 st.markdown(
@@ -167,14 +167,13 @@ if selected == 'Analysis':
 
         # Line Chart
         st.title("Line Chart")
-        line_cols = st.selectbox("Select a category", ['ram', 'graphic_card'])
-        line_by_price = (
-            laptop.groupby(by=[line_cols]).count()[
-                ["price"]].sort_values("price")
-        )
+        line_cols = st.selectbox("Select a category", ['ram', 'graphic_card','ssd','warranty','display'])
+        
+        avg_ram_price = laptop.groupby(by=[line_cols]).mean()[['price']]
+        
 
-        fig = px.line(line_by_price, x=line_by_price.index,
-                      y='price')
+        fig = px.line(avg_ram_price, x=avg_ram_price.index,
+                      y='price',markers=True)
         st.plotly_chart(fig)
 
         # Donut Chart
