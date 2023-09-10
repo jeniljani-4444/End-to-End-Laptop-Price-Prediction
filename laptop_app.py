@@ -1,5 +1,4 @@
 import streamlit as st
-import pickle
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -33,7 +32,7 @@ def load_data_and_models():
     laptop = joblib.load('laptop.joblib')
 
     # Load the ML model
-    with open('pipe.joblib', 'rb') as model_file:
+    with open('pipe.joblib','rb') as model_file:
         model = joblib.load(model_file)
 
     return laptop, model
@@ -139,7 +138,7 @@ if selected == 'Analysis':
                              'ram', 'graphic_card', 'ssd', 'warranty', 'display'])
 
     # Create a Line Chart
-    avg_ram_price = laptop.groupby(by=[line_cols]).mean()[['price']]
+    avg_ram_price = laptop.groupby(by=[line_cols]).mean()['price']
     fig = px.line(avg_ram_price, x=avg_ram_price.index,
                   y='price', markers=True)
     st.plotly_chart(fig)
@@ -176,3 +175,6 @@ if selected == 'Analysis':
     # Create a Histogram
     fig = px.histogram(laptop['rating'], nbins=bins, title="Histogram")
     st.plotly_chart(fig)
+
+
+
