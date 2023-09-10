@@ -6,6 +6,7 @@ import plotly.express as px
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 import requests
+import joblib
 
 st.set_page_config(
     page_title="Laptop Price Prediction App",
@@ -29,11 +30,11 @@ st.markdown(
 @st.cache_resource()
 def load_data_and_models():
     # Load data
-    laptop = pd.read_pickle('laptop.pkl')
+    laptop = joblib.load('laptop.joblib')
 
     # Load the ML model
-    with open('pipe.pkl', 'rb') as model_file:
-        model = pickle.load(model_file)
+    with open('pipe.joblib', 'rb') as model_file:
+        model = joblib.load(model_file)
 
     return laptop, model
 
