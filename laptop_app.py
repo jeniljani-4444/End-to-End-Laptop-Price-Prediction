@@ -127,7 +127,7 @@ if selected == 'Analysis':
                              'ram', 'graphic_card', 'ssd', 'warranty', 'display'])
 
     # Create a Line Chart
-    avg_ram_price = laptop.groupby(by=[line_cols]).mean()['price']
+    avg_ram_price = laptop.groupby(by=[line_cols]).mean()[['price']]
     fig = px.line(avg_ram_price, x=avg_ram_price.index,
                   y='price', markers=True)
     st.plotly_chart(fig)
