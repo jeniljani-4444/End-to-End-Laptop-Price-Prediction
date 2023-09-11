@@ -23,6 +23,8 @@ st.markdown(
 )
 
 # Load data and models only once
+
+
 @st.cache_resource()
 def load_data_and_models():
     # Load data
@@ -34,14 +36,18 @@ def load_data_and_models():
 
     return laptop, model
 
+
 laptop, model = load_data_and_models()
 
 # Lottie Animation
+
+
 def lottieurl(url):
     r = requests.get(url)
     if r.status_code != 200:
         return None
     return r.json()
+
 
 # Navigation
 with st.sidebar:
@@ -57,7 +63,7 @@ with st.sidebar:
 # Description
 if selected == 'Description':
     st.title("Laptop Price Prediction :computer:")
-    st.subheader("Aim: The aim of the Laptop Price Prediction project is to develop an end-to-end machine learning model that can accurately predict the prices of laptops based on various features and specifications. This project leverages data scraped from Flipkart, a popular online shopping platform, to train and deploy a predictive model. The primary objectives of this project include:",divider='rainbow')
+    st.subheader("Aim: The aim of the Laptop Price Prediction project is to develop an end-to-end machine learning model that can accurately predict the prices of laptops based on various features and specifications. This project leverages data scraped from Flipkart, a popular online shopping platform, to train and deploy a predictive model. The primary objectives of this project include:", divider='rainbow')
 
     left_col, right_col = st.columns(2)
     lottie = lottieurl(
@@ -103,12 +109,19 @@ if selected == 'Prediction':
 # Analysis
 if selected == 'Analysis':
     st.title("Analysis")
+    st.subheader("Dataset")
+    st.dataframe(laptop)
+    # Shape of the dataset
+    st.write("Number of rows: ", laptop.shape[0])
+    st.write("Number of columns: ", laptop.shape[1])
 
     # Select category for Bar Chart
+    st.subheader("Bar Chart")
     cols_name = st.selectbox("Select a category for Bar Chart", [
                              'name', 'pros_name', 'os'])
 
     # Create a Bar Chart
+
     name_by_price = laptop.groupby(by=[cols_name]).count()[
         ["price"]].sort_values("price")
     fig_name_prices = px.bar(
@@ -122,18 +135,8 @@ if selected == 'Analysis':
     fig_name_prices.update_xaxes(title_text="Counts")
     st.plotly_chart(fig_name_prices)
 
-    # Select category for Line Chart
-    line_cols = st.selectbox("Select a category for Line Chart", [
-                             'ram', 'graphic_card', 'ssd', 'warranty', 'display'])
-
-    # Create a Line Chart
-    avg_ram_price = laptop.groupby(by=[line_cols]).mean()[['price']]
-    fig = px.line(avg_ram_price, x=avg_ram_price.index,
-                  y='price', markers=True)
-    st.plotly_chart(fig)
-
     # Donut Chart
-    st.title("Donut Chart")
+    st.subheader("Donut Chart")
     input_donut_chart = st.multiselect("Select options for the Donut Chart:", [
                                        "ram", "graphic_card"], default=["ram"])
 
@@ -157,12 +160,10 @@ if selected == 'Analysis':
         generate_donut_chart(laptop['graphic_card'], "Graphic Card")
 
     # Histogram
-    st.title("Histogram")
+    st.subheader("Histogram")
     bins = st.slider("Select the number of bins",
                      min_value=5, max_value=20, value=10)
 
     # Create a Histogram
     fig = px.histogram(laptop['rating'], nbins=bins, title="Histogram")
     st.plotly_chart(fig)
-
-
