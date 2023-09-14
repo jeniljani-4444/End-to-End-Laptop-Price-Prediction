@@ -16,5 +16,5 @@ conda create -p venv python==3.10 -y
 ```
 ### Web App Link
 
-(https://end-to-end-laptop-price-prediction.streamlit.app/)
+https://end-to-end-laptop-price-prediction.streamlit.app/
 
